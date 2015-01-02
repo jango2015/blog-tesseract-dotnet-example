@@ -1,0 +1,63 @@
+﻿<Window x:Class="Blog.TesseractOcr.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:Blog.TesseractOcr.ViewModel"
+        xmlns:converter="clr-namespace:RS.WPF.Framework.Util;assembly=RS.WPF.Framework"
+        Title="Schrifterkennung mit Tesseract OCR"
+        Height="550"
+        Width="755">
+    <!-- MainVM als Kontext setzen -->
+    <Window.DataContext>
+        <vm:MainVM />
+    </Window.DataContext>
+    <!-- Bitmap zu ImageSource Converter-->
+    <Window.Resources>
+        <converter:BitmapToImageSourceConverter x:Key="bmpToImgSrc" />
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="10" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="10" />
+        </Grid.ColumnDefinitions>
+        <!-- Bild öffnen Button-->
+        <Button Grid.Column="1"
+                Grid.Row="1"
+                Width="100"
+                Command="{Binding OpenImgCmd}"
+                Content="Bild öffnen" 
+                HorizontalAlignment="Left"/>
+        <!-- Geladenes Bild anzeigen -->
+        <TextBlock Grid.Column="1"
+                   Grid.Row="3"
+                   Text="Bild:" />          
+        <Image Grid.Column="1"
+               Grid.Row="5"
+               Source="{Binding Image, Converter={StaticResource bmpToImgSrc}}" />    
+        <Border  Grid.Column="1"
+                 Grid.Row="5"
+                 BorderBrush="Black"
+                 BorderThickness=".5" />
+        <!-- Gefundener Text -->
+        <TextBlock Grid.Column="3"
+                   Grid.Row="3"
+                   Text="Gefundener Text:" />
+        <TextBox  Grid.Column="3"
+                  Grid.Row="5"
+                  FontSize="16"
+                  Text="{Binding Text}" />
+        
+    </Grid>
+</Window>
